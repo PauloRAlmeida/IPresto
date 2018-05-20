@@ -1,0 +1,26 @@
+ --Tabela Anuncio
+ create table Anuncio (id bigint(20) primary key auto_increment, titulo varchar(40), prestador_id bigint(20), descricao varchar(200), preco int(10);
+ 
+ --tabela Comentario
+create table Comentario (id bigint(20) primary key auto_increment, cliente_id bigint(20),  mensagem varchar(200), avaliacao int(5), media int(5), prestador_id bigint(20));
+
+--tabela Cliente
+create table Cliente (id bigint(20) primary key auto_increment, nome varchar(40), email varchar(40), senha varchar(40), endereco_id bigint(20), pessoa_id bigint(40));
+
+--tabela Endereco
+ create table Endereco (id bigint(20) primary key auto_increment, logadouro varchar(20), numero int, cep int, cidade varchar(40), bairro varchar(40), pais varchar(40));
+ 
+ --tablea Pessoa
+ create table Pessoa (id bigint(20) primary key auto_increment, cpf int, cnpj int);
+ 
+ --tabela Prestador
+ create table Prestador (id bigint(20) primary key auto_increment, nome varchar(40), sobrenome varchar(40), nick varchar(40), senha varchar(40), pessoa varchar(20), email varchar(40), telfixo varchar(30), telcelular varchar(30), endereco_id bigint(20), media_id bigint(20), foreign key(media_id) references Media(id), foreign key (endereco_id) references Endereco(id);
+ 
+ --table Media
+ create table Media (id bigint(20) primary key auto_increment, media int, contador int);
+
+alter table Anuncio add foreign key(prestador_id) references Prestador(id);
+alter table Comentario add foreign key (cliente_id) references Cliente(id);
+alter table Comentario add foreign key (prestador_id) references Prestador(id);
+alter table Cliente add foreign key (endereco_id) references Endereco(id);
+alter table Cliente add foreign key (pessoa_id) references Pessoa(id);
