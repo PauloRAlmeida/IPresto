@@ -3,6 +3,7 @@ package presto.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,14 +23,18 @@ public class ClienteServiceImpl implements ClienteService{
 	@Autowired
 	private EnderecoRepository endRepo;
 	
-	@Autowired 
-	private AutorizacaoRepository autRepo;
-	
 	@Transactional
 	public Cliente save(Cliente cliente) {
 		
 		if(cliente.getAutorizacoes()!=null) {
 		cliente.setAutorizacoes(cliente.getAutorizacoes());
+		}
+		
+		else {
+			Autorizacao aut = new Autorizacao();
+			aut.setId(cliente.getId());
+			aut.setNome("ROLE_USER");
+			cliente.addAutorizacao(aut);
 		}
 		
 		if(cliente.getEndereco() != null) {
@@ -50,8 +55,13 @@ public class ClienteServiceImpl implements ClienteService{
 	}
 
 	@Override
-	public Cliente findByNome(String username) {
+	public Cliente findByEmail(String username) {
 		return cliRepo.findByNome(username);
+	}
+	
+	@Override
+	public Cliente findById(Long id) {
+		return cliRepo.findById(id);
 	}
 
 }

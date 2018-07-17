@@ -5,6 +5,7 @@ import java.util.Date;
 
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -31,6 +32,7 @@ public class JwtUtils {
     
     public static Cliente parseToken(String token) throws JsonParseException, JsonMappingException, IOException {
         ObjectMapper mapper = new ObjectMapper();
+        mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
         String credentialsJson = Jwts.parser()
                 .setSigningKey(secretKey)
                 .parseClaimsJws(token)

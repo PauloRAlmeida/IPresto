@@ -9,6 +9,8 @@ public interface ClienteService {
 	
 	public Cliente save(Cliente cliente);
 	public List<Cliente> getAll();
-	public Cliente findByNome(String username);
+	public Cliente findByEmail(String username);
+	public Cliente findById(Long id);
 
+	
 }

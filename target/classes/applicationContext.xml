@@ -23,12 +23,13 @@
         <property name="password" value="fatec" />
     </bean>
     
-    <bean id="entityManagerFactory"
-        class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean"
-        p:packagesToScan="presto.model"
-        p:dataSource-ref="dataSource"
-        >
-        
+    <!-- Entity Manager - Responsável pela persistência de dados -->
+    <!-- p:packageToScan (local onde estão as classes persistidas) -->
+    <!-- property (indicamos que utilizaremos o Hibernate como implementação do JPA e definimos suas configurações) -->
+    <bean id="entityManagerFactory" 
+    	class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean" 
+    	p:packagesToScan="presto.model" 
+    	p:dataSource-ref="dataSource">
         <property name="jpaVendorAdapter">
             <bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
                 <property name="generateDdl" value="false" />

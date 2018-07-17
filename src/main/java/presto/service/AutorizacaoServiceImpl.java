@@ -23,19 +23,16 @@ public class AutorizacaoServiceImpl implements AutorizacaoService {
 	}
 	
 	@Override
-	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	public Autorizacao salvar(Autorizacao autorizacao) {
 		return autorizacaoRepo.save(autorizacao);
 	}
 
 	@Override
-	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	public void excluir(Long idAutorizacao) {
 		autorizacaoRepo.delete(idAutorizacao);
 	}
 
 	@Override
-	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	public List<Autorizacao> todos() {
 		List<Autorizacao> retorno = new ArrayList<Autorizacao>();
 		for(Autorizacao autorizacao: autorizacaoRepo.findAll()) {
@@ -45,7 +42,6 @@ public class AutorizacaoServiceImpl implements AutorizacaoService {
 	}
 
 	@Override
-	@PreAuthorize("isAuthenticated()")
 	public List<Autorizacao> buscar(String nome) {
 		if(nome == null || nome.isEmpty()) {
 			return todos();
@@ -54,7 +50,6 @@ public class AutorizacaoServiceImpl implements AutorizacaoService {
 	}
 
 	@Override
-	@PreAuthorize("isAuthenticated()")
 	public Autorizacao buscarPorId(Long idAutorizacao) {
 		return autorizacaoRepo.findOne(idAutorizacao);
 	}

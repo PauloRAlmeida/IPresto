@@ -2,7 +2,6 @@ package presto.model;
 
 import java.util.Collection;
 import java.util.List;
-
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -19,12 +18,12 @@ import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
-
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonView;
 
+import presto.View.View;
 
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.NONE)
@@ -38,25 +37,30 @@ public class Cliente implements UserDetails {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name = "id")
+	@JsonView({View.Cliente.class, View.Alternative.class})
 	private Long id;
 	
+	@JsonView({View.Cliente.class, View.Alternative.class})
     @Column (name="nome")
 	private String nome;
     
-    @Column (name="email")
+	@JsonView({View.Cliente.class, View.Alternative.class})
+	@Column (name="email")
 	private String email;
     
+	@JsonView(View.Alternative.class)
     @Column (name="senha")
 	private String senha;
 
+	@JsonView(View.Alternative.class)
     @OneToOne 
     @JoinColumn (name="endereco_id")	
     private Endereco endereco;
     
     @JsonIgnore
     @OneToMany(mappedBy = "cliente", targetEntity = Comentario.class, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	private List<Comentario> comentarios;
-    
+	private List<Comentario> comentarios; 
+   
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "cliente_autorizacao", 
     	joinColumns = { @JoinColumn(name = "cli_id") }, 
@@ -84,6 +88,10 @@ public class Cliente implements UserDetails {
 
 	public List<Autorizacao> getAutorizacoes() {
 		return autorizacoes;
+	}
+	
+	public void addAutorizacao(Autorizacao aut) {
+		autorizacoes.add(aut);
 	}
 
 	public void setAutorizacoes(List<Autorizacao> autorizacoes) {
